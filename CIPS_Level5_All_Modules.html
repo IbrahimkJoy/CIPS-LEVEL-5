@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIPS Level 5 – Advanced Diploma in Procurement & Supply</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root {
+    --cips-dark:#1a2332;--cips-blue:#00437a;--cips-mid:#005fa3;--cips-accent:#e8830a;
+    --cips-light-blue:#daeaf7;--cips-green:#2d7a4f;--cips-light-green:#d4edda;
+    --cips-purple:#5a3e85;--cips-light-purple:#e8dff5;--cips-row-alt:#f4f8fc;
+    --cips-border:#b8d0e8;--header-bg:#00437a;--subheader-bg:#1a4f7a;
+    --font:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:#e8eef5;color:#1a2332;font-size:13px;line-height:1.5;}
+  .page-wrapper{max-width:1280px;margin:24px auto;padding:0 16px 48px;}
+  .top-banner{background:linear-gradient(135deg,#00437a 0%,#005fa3 60%,#0077cc 100%);border-radius:10px 10px 0 0;padding:28px 36px;color:white;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid var(--cips-accent);}
+  .top-banner h1{font-size:22px;font-weight:700;letter-spacing:-0.3px;}
+  .top-banner .subtitle{font-size:13px;opacity:0.8;margin-top:4px;font-weight:300;}
+  .badge-group{display:flex;gap:10px;flex-wrap:wrap;}
+  .badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:6px 14px;font-size:12px;font-weight:500;text-align:center;}
+  .badge strong{display:block;font-size:17px;font-weight:700;}
+  .qual-overview{background:white;border:1px solid var(--cips-border);border-top:none;padding:20px 36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px 24px;border-bottom:3px solid var(--cips-light-blue);}
+  .qual-item label{font-size:10px;font-weight:600;color:#6b7a8d;text-transform:uppercase;letter-spacing:0.8px;}
+  .qual-item .val{font-size:14px;font-weight:600;color:var(--cips-blue);margin-top:2px;}
+  .module-nav{background:var(--cips-dark);padding:0 36px;display:flex;gap:2px;flex-wrap:wrap;border-bottom:3px solid var(--cips-accent);}
+  .module-nav button{background:transparent;border:none;color:rgba(255,255,255,0.6);padding:12px 16px;font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;border-top:3px solid transparent;transition:all 0.2s;white-space:nowrap;}
+  .module-nav button:hover{color:white;background:rgba(255,255,255,0.08);}
+  .module-nav button.active{color:white;border-top-color:var(--cips-accent);background:rgba(232,131,10,0.1);}
+  .module-panel{display:none;}
+  .module-panel.active{display:block;}
+  .mod-header-table{width:100%;border-collapse:collapse;background:white;border:1px solid var(--cips-border);border-top:none;}
+  .mod-header-table td{padding:8px 16px;border-bottom:1px solid #e0eaf3;border-right:1px solid #e0eaf3;vertical-align:top;}
+  .mod-header-table td:first-child{font-weight:600;color:#4a5568;font-size:12px;width:220px;background:#f7fafd;font-style:italic;}
+  .mod-header-table td.title-row{font-size:18px;font-weight:700;color:var(--cips-blue);background:#eef5fb;}
+  .mod-header-table td.core-badge{background:var(--cips-blue);color:white;font-weight:700;font-size:12px;}
+  .mod-header-table td.elective-badge{background:var(--cips-green);color:white;font-weight:700;font-size:12px;}
+  .mod-header-table td.purpose-row{background:#fafafa;font-size:12.5px;line-height:1.6;}
+  .mod-header-table td.aim-row{background:#1a2332;color:#dce8f5;font-size:12.5px;line-height:1.65;}
+  .session-section{background:white;border:1px solid var(--cips-border);border-top:none;}
+  .session-table{width:100%;border-collapse:collapse;}
+  .session-table th{background:var(--subheader-bg);color:white;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;border-right:1px solid rgba(255,255,255,0.15);}
+  .session-table th:first-child{width:48px;text-align:center;}
+  .session-table th:nth-child(2){width:40%;}
+  .session-table th:nth-child(3){width:18%;}
+  .session-table th:last-child{width:32%;}
+  .session-table td{padding:9px 14px;border-bottom:1px solid #dce8f3;border-right:1px solid #dce8f3;vertical-align:top;font-size:12.5px;}
+  .session-table td:first-child{text-align:center;font-weight:700;color:#8296aa;background:#f7fafd;font-size:11px;font-family:var(--mono);}
+  .session-table tr:nth-child(even) td:not(:first-child){background:var(--cips-row-alt);}
+  .session-table tr.indep-row td{background:#fff8e1!important;}
+  .session-table tr.indep-row td:first-child{background:#fff3cd!important;}
+  .session-table tr.exam-row td{background:#fce8d5!important;}
+  .session-table tr.exam-row td:first-child{background:#fdd5b0!important;}
+  .session-table tr.review-row td{background:var(--cips-light-green)!important;}
+  .session-table tr.review-row td:first-child{background:#b7dfc8!important;}
+  .session-table tr.header-row td{background:#2c3e5a!important;color:white!important;font-weight:600;font-size:12px;}
+  .session-table tr.header-row td:first-child{background:#1e2e42!important;color:white!important;}
+  .indep-label{color:#c0780a;font-weight:600;font-size:12px;}
+  .exam-label{color:#b04000;font-weight:600;font-size:12px;}
+  .ref-chip{display:inline-block;background:var(--cips-light-blue);color:var(--cips-blue);border:1px solid #a8c8e8;border-radius:3px;padding:1px 6px;font-size:11px;font-family:var(--mono);font-weight:500;margin-right:3px;margin-bottom:2px;}
+  .activity-tag{display:inline-block;background:#e8f5e9;color:#2d6a4f;border:1px solid #a8d5b5;border-radius:3px;padding:1px 7px;font-size:11px;font-weight:500;}
+  .activity-tag.orange{background:#fff3e0;color:#994500;border-color:#f5c08a;}
+  .activity-tag.purple{background:var(--cips-light-purple);color:var(--cips-purple);border-color:#c4ade8;}
+  .activity-tag.blue{background:var(--cips-light-blue);color:var(--cips-blue);border-color:#90c0e8;}
+  .footer-bar{background:var(--cips-dark);color:rgba(255,255,255,0.5);text-align:center;padding:14px;font-size:11px;border-radius:0 0 10px 10px;}
+  @media print{.module-nav{display:none;}.module-panel{display:block!important;page-break-after:always;}}
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<div class="top-banner">
+  <div>
+    <h1>Level 5 – Advanced Diploma in Procurement &amp; Supply</h1>
+    <div class="subtitle">Chartered Institute of Procurement &amp; Supply (CIPS) &nbsp;|&nbsp; Ref: 603/3925/1 &nbsp;|&nbsp; 2025 Syllabus (Updated)</div>
+  </div>
+  <div class="badge-group">
+    <div class="badge"><strong>600</strong>TQT Hours</div>
+    <div class="badge"><strong>250</strong>GLH Hours</div>
+    <div class="badge"><strong>335</strong>SSR Hours</div>
+    <div class="badge"><strong>60</strong>Credits</div>
+  </div>
+</div>
+
+<div class="qual-overview">
+  <div class="qual-item"><label>Qualification Code</label><div class="val">603/3925/1</div></div>
+  <div class="qual-item"><label>Level</label><div class="val">Level 5 (RQF)</div></div>
+  <div class="qual-item"><label>Core Modules</label><div class="val">5 modules (42 credits)</div></div>
+  <div class="qual-item"><label>Elective Modules</label><div class="val">3 of 6 (18 credits)</div></div>
+  <div class="qual-item"><label>Total Credits</label><div class="val">60 credits</div></div>
+  <div class="qual-item"><label>Exam Types</label><div class="val">OR (Objective) &amp; CR (Constructed)</div></div>
+  <div class="qual-item"><label>Entry Requirement</label><div class="val">CIPS Level 4 Diploma</div></div>
+  <div class="qual-item"><label>Progression</label><div class="val">CIPS Level 6 Professional Diploma</div></div>
+</div>
+
+<div class="module-nav">
+  <button class="active" onclick="showModule('L5M1',this)">L5M1 – Managing Teams</button>
+  <button onclick="showModule('L5M2',this)">L5M2 – Supply Chain Risk</button>
+  <button onclick="showModule('L5M3',this)">L5M3 – Contractual Risk</button>
+  <button onclick="showModule('L5M4',this)">L5M4 – Contract &amp; Finance</button>
+  <button onclick="showModule('L5M5',this)">L5M5 – Ethical P&amp;S</button>
+  <button onclick="showModule('L5M6',this)">L5M6 – Category Mgmt ★</button>
+  <button onclick="showModule('L5M7',this)">L5M7 – Competitive Adv ★</button>
+  <button onclick="showModule('L5M8',this)">L5M8 – Project &amp; Change ★</button>
+  <button onclick="showModule('L5M9',this)">L5M9 – Operations Mgmt ★</button>
+  <button onclick="showModule('L5M10',this)">L5M10 – Logistics ★</button>
+  <button onclick="showModule('L5M15',this)">L5M15 – Negotiation ★</button>
+</div>
+
+<!-- ===== L5M1 ===== -->
+<div id="L5M1" class="module-panel active">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M1</strong></td><td class="core-badge">CORE MODULE</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Managing Teams and Individuals</td></tr>
+    <tr><td>Credit Value</td><td>12 Credits</td><td>Exam Duration: 3 Hours (CR)</td></tr>
+    <tr><td>Module Learning Time</td><td>120 Hours</td><td>Exam Type: Constructed Response (CR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 7.6, 9.4, 9.5, 9.6, 10.3</td></tr>
+    <tr><td>Total TQT</td><td>600 Hours</td><td>SSR: 335 Hours | 4 LOs (updated book structure)</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to evaluate the different schools of thought and the reasoning behind the variety of approaches to the management of themselves, individuals and groups or teams within organisations.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">Management is the administration of an organisation, whether it be a business, a not-for-profit organisation, or government body. Those who manage procurement and supply activity must possess expertise in developing and fulfilling organisational and functional objectives. Learners gain a wider appreciation of theories and techniques that relate to managing teams and individuals involved with the procurement and supply function.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Understand, analyse and apply management and organisational approaches (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Intro to L5M1. Analyse aspects of organisational behaviour: behaviour of individuals; organisational structure and the impact on team behaviour; impact of organisational structures on the process of management; organisational metaphors; impact of the psychological contract in managing individuals; STEEPLED factors influencing organisational behaviour.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Case study discussion</span></td></tr>
+      <tr class="indep-row"><td>2</td><td class="indep-label">Independent review notes using Study Guide (section 1.1)</td><td></td><td></td></tr>
+      <tr><td>3</td><td>Analyse the traditional approaches of management and organisational behaviour: administrative approach; scientific management approach; bureaucratic approach.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Classical theory workshop</span></td></tr>
+      <tr><td>4</td><td>Analyse contemporary approaches to management and organisational behaviour: organisations as a socio-technical system; the systems approach to organisational behaviour; the contingency approach; postmodernism in organisations; human relations approach; management and distributed leadership.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag blue">Contemporary theory seminar</span></td></tr>
+      <tr><td>5</td><td>Evaluate influences that shape organisational behaviour: the role of individuals; the role of teams and groups; the role of the organisation; the cultural environment and methodologies for assessing cultural types.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag purple">Culture assessment exercise</span></td></tr>
+      <tr class="indep-row"><td>6</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Understand and apply approaches to managing individuals (Chapter 2)</td></tr>
+      <tr><td>7</td><td>Analyse how the different behavioural characteristics of individuals can impact on their management style and approach: the differences among individuals; the value and importance of diversity in organisations; approaches to the measurement of individuals' characteristics for development purposes; emotional intelligence – insight into how people think and behave.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag orange">EI assessment exercise</span></td></tr>
+      <tr><td>8</td><td>Examine the importance of knowledge and learning in management: how knowledge is created and codified; organisational requirements and resources for effective learning; dispositions of individuals for effective learning (curiosity, motivation, resilience, self-awareness); learning as a formal and spontaneous process; behavioural and cognitive theories of learning; importance and benefits of learning.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag blue">Learning styles workshop</span></td></tr>
+      <tr class="indep-row"><td>9</td><td class="indep-label">Independent review notes using Study Guide (sections 2.1–2.2)</td><td></td><td></td></tr>
+      <tr><td>10</td><td>Analyse motivational theories and approaches: definition of motivation; extrinsic and intrinsic motivation; frustration-induced and constructive behaviours; content theories of motivation (Maslow, Herzberg); process theories of motivation.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Motivation theory challenge</span></td></tr>
+      <tr><td>11</td><td>Analyse and apply the major dimensions that influence job satisfaction: dimensions of job satisfaction; alienation at work; approaches to job design, enlargement and enrichment; flexible working arrangements; collaboration and teamwork.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">Job satisfaction case study</span></td></tr>
+      <tr class="indep-row"><td>12</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Understand and apply approaches to planning and managing work groups or teams (Chapter 3)</td></tr>
+      <tr><td>13</td><td>Examine the impact of work groups or teams on effective and efficient performance: group vision, values, norms and alignment; groups, teams and teamwork; formal and informal groups.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">Team analysis workshop</span></td></tr>
+      <tr><td>14</td><td>Analyse theory and practice of developing effective work groups: considerations and characteristics of effective groups and teams (size of the group, capability of members, nature of the task, physical setting, communications and use of technology); theories relating to stages of group/team development; individual strengths and team roles; self-managed work groups/teams; considerations for virtual teams and remote working; benefits of diverse teams; managing conflict.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Belbin &amp; Tuckman exercise</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide (sections 3.1–3.2)</td><td></td><td></td></tr>
+      <tr><td>16</td><td>Assess the importance of team development and change: definition and importance of team development; embedding learning into team development; role congruence and incongruence; the case for disbanding or merging teams and methods to manage the change.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Team change management scenario</span></td></tr>
+      <tr class="indep-row"><td>17</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO4: Assess the application of management concepts and principles in a P&amp;S function (Chapter 4)</td></tr>
+      <tr><td>18</td><td>Assess the alignment of procurement and supply knowledge, skills, and behaviours to the organisational strategy: the scope of the procurement and supply operation; methods for identifying the relevant knowledge, skills and behaviours required; the business case for developing teams.</td><td><span class="ref-chip">LO4, AC4.1</span></td><td><span class="activity-tag blue">Skills alignment analysis</span></td></tr>
+      <tr><td>19</td><td>Evaluate the role of the procurement and supply team and how it builds trust with stakeholders: the impact of different roles in stakeholder relationships; stakeholder management as a team approach; building and maintaining trust with stakeholders; collaboration for mutually beneficial stakeholder relationships.</td><td><span class="ref-chip">LO4, AC4.2</span></td><td><span class="activity-tag orange">Stakeholder trust workshop</span></td></tr>
+      <tr class="indep-row"><td>20</td><td class="indep-label">Independent review notes using Study Guide (sections 4.1–4.2)</td><td></td><td></td></tr>
+      <tr><td>21</td><td>Examine the importance of learning within effective procurement and supply functions: understanding the need for lifelong learning in P&amp;S; sharing knowledge of P&amp;S practice with stakeholders; embedding a learning culture within a P&amp;S function; responsibility for professional development.</td><td><span class="ref-chip">LO4, AC4.3</span></td><td><span class="activity-tag purple">CPD planning exercise</span></td></tr>
+      <tr><td>22</td><td>Assess the development of personal behaviours to support effective procurement and supply activities: the importance of being unbiased in P&amp;S activities; effective listening and communication; use of curiosity and creative thinking to solve problems; reflective activities.</td><td><span class="ref-chip">LO4, AC4.4</span></td><td><span class="activity-tag">Reflective practice workshop</span></td></tr>
+      <tr class="indep-row"><td>23</td><td class="indep-label">Independent review notes using Study Guide and questions on LO4</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>24</td><td class="exam-label">CR Exam Style Question – full essay response under timed conditions</td><td></td><td><span class="activity-tag orange">Timed essay practice</span></td></tr>
+      <tr><td>25</td><td>CR Exam Skills Development – structure, analyse the question, use of examples and theory application.</td><td></td><td><span class="activity-tag blue">Exam technique workshop</span></td></tr>
+      <tr class="review-row"><td>26</td><td>Review Knowledge LO1 &amp; LO2</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>27</td><td>Review Knowledge LO3 &amp; LO4</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>28</td><td>Revision strategies and Final Q&amp;A</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M2 (NEW BOOK) ===== -->
+<div id="L5M2" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M2</strong></td><td class="core-badge">CORE MODULE</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Managing Supply Chain Risk</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 8.4</td></tr>
+    <tr><td>Total TQT</td><td>600 Hours</td><td>SSR: 335 Hours | ESG fully integrated (2025 New Book)</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to appraise a variety of tools and techniques to establish the level of risk in supply chains and to recommend and apply ways of avoiding, mitigating or managing risk.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">Risk management is a central part of an organisation's strategy. The supply chain is by its very nature a complex activity which is therefore susceptible to risk and its associated impacts. This module enables learners to examine the nature of supply chain risk and to evaluate mitigation techniques available. Learners will undertake risk analysis, consider the advantages of a risk register, and apply a range of appropriate risk management tools and techniques to the supply chain. ESG (Environmental, Social and Governance) considerations are fully integrated throughout this updated module.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Understand the nature of risk affecting supply chains (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse different types of risk: definitions of risks, hazards, exposure and risk appetite; categories of risk (financial, strategic, operational, hazard); ESG risks impacting supply chains; tools for assessing internal and external sources of risk; positive and negative consequences of risk; direct and indirect losses.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Risk category mapping</span></td></tr>
+      <tr class="indep-row"><td>2</td><td class="indep-label">Independent review notes using Study Guide (sections 1.1.1–1.1.6)</td><td></td><td></td></tr>
+      <tr><td>3</td><td>Assess operational risks in supply chains: contract failure; financial risks (currency, cash flow, insolvency); quality failure; security of supply; technology; logistics complexity; risks in outsourcing and offshoring; ESG risks impacting supply chains.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Operational risk mapping</span></td></tr>
+      <tr><td>4</td><td>Compare methods for eliminating fraud and corruption in supply chains: types of corruption; types of fraud; governance of fraud and corruption in supply chains; use of ethical codes including the CIPS Code of Conduct to support the elimination of risk.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">CIPS Code of Conduct case study</span></td></tr>
+      <tr><td>5</td><td>Assess ESG risks in supply chains impacting on organisational ESG considerations: defining ESG in context of sustainable procurement and supply; how environmental supply chain risks impact organisational ESG; how social supply chain risks impact organisational ESG; how governance supply chain risks impact organisational ESG; standards for sustainable procurement (ISO standards, UN, ILO, local sustainability standards).</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">ESG standards analysis</span></td></tr>
+      <tr class="indep-row"><td>6</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Understand processes in managing risk in supply chains (Chapter 2)</td></tr>
+      <tr><td>7</td><td>Examine use of contractual terms to help manage risk in supply chains: purpose and use of model form contracts (NEC, FIDIC); purpose and development of indemnity and liability clauses; purpose and use of clauses for testing, inspection and acceptance; impact of force majeure clauses; global sourcing considerations and ensuring compliance to standards.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Model form contract analysis</span></td></tr>
+      <tr><td>8</td><td>Analyse use of third-parties in risk management in supply chains: use of third-party providers for credit rating, debt factoring and related business services; use of third-party providers for auditing risks including ESG risks in supply chains; use of third-party providers for disaster recovery services.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Third party risk exercise</span></td></tr>
+      <tr><td>9</td><td>Assess use of insurances for supply chain risks: use of insurance in managing supply chain risk; legal principles of insurance; categories of insurance (employers and public liability, professional indemnity, product liability, trade credit); insurance claims, underwriting and supply chain risk management.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag">Insurance type matching activity</span></td></tr>
+      <tr><td>10</td><td>Examine use of contingency plans in response to risks in supply chains: components of a business continuity plan and disaster recovery plan; definitions and purpose of disaster recovery and business continuity planning; importance of reviewing and testing contingency plans.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag purple">BCP/DRP drafting exercise</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Understand risk mitigation strategies in supply chains (Chapter 3)</td></tr>
+      <tr><td>12</td><td>Evaluate use of probability and impact assessments: methodologies for assessing probability and impact of risk; vulnerability assessments; collating statistical evidence of risks; use of probability theory and statistical distribution methods to determine the likelihood of risk.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">Probability calculation exercise</span></td></tr>
+      <tr><td>13</td><td>Analyse and propose how risk assessments and risk registers can mitigate risks in a supply chain: creation and use of templates for risk assessments and risk registers; engaging stakeholders in the development and review of risk assessment and registers; importance of reporting and action plans in risk management.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Risk register completion task</span></td></tr>
+      <tr><td>14</td><td>Explain development of a risk management culture and strategy to improve supply chains: developing a strategic approach to risk management; role of organisational culture in the management of supply chain risk; risk management process and development of risk management plans; resource requirements for effective supply chain risk management; supply chain risk visibility and reporting to stakeholders.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Risk strategy workshop</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>16</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>17</td><td>Review Knowledge LO1</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>18</td><td>Review Knowledge LO2 &amp; LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M3 ===== -->
+<div id="L5M3" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M3</strong></td><td class="core-badge">CORE MODULE</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Managing Contractual Risk</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 5.5</td></tr>
+    <tr><td>Total TQT</td><td>600 Hours</td><td>SSR: 335 Hours | Force majeure, novation &amp; repudiation added (2025)</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to evaluate the legal and process issues relating to the formation of contracts and the legal implications of contractual non-conformance. They will also assess the impacts of breach of contract and examine coping remedies and provisions that are available under such circumstances.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">As organisations outsource more and more activity it is vital that they ensure associated contracts deliver expected services and/or products. Learners examine the nature of contract risk and the legal implications relating to contract formation and non-conformance, the impact of breach of contract, and coping strategies to address such breaches. The updated syllabus includes specific references to force majeure, novation and repudiation.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Understand the legal and process issues relating to the formation of contracts (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse issues relating to the formation of contracts and associated risks: contract risks associated with offers; risks associated with counter offers; contract risks associated with acceptance; contract risks associated with precedence of documents; contract risks associated with contract amendments, variation and changes.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Contract formation workshop</span></td></tr>
+      <tr class="indep-row"><td>2</td><td class="indep-label">Independent review notes using Study Guide (sections 1.1.1–1.1.5)</td><td></td><td></td></tr>
+      <tr><td>3</td><td>Analyse the various elements of contractual process on overall risk: indemnities and liabilities; contractual risk of insurance; guarantees; liquidated damages guarantees; payment; delivery and completion; force majeure; sub-contracting.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Contractual clause risk-rating</span></td></tr>
+      <tr class="indep-row"><td>4</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Understand the impact of breach of contract and approaches for managing the breach (Chapter 2)</td></tr>
+      <tr><td>5</td><td>Analyse types and impact of contract breach: minor breach; material breach; fundamental breach; anticipatory breach; repudiation.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag">Breach classification activity</span></td></tr>
+      <tr><td>6</td><td>Compare and contrast the methods to manage breach of contract: formal vs. informal action; negotiation; litigation and implications; alternative dispute resolution (mediation, arbitration, conciliation, ombudsperson).</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag blue">ADR methods comparison</span></td></tr>
+      <tr><td>7</td><td>Explain options to mitigate the consequences of a breach of contract: sub-contracting and novation; use of liquidated damages provisions; managing reputational damage; making claims and management of the process.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag orange">Breach mitigation case study</span></td></tr>
+      <tr class="indep-row"><td>8</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Understand the legal implications of contractual non-conformance in P&amp;S (Chapter 3)</td></tr>
+      <tr><td>9</td><td>Contrast remedies that apply to non-performance of contracts: contract non-performance, remedies, service credits and relationship with contract breach; contractual provisions as remedies; default clauses; assessment of consequential loss; liquidated damages, unliquidated damages and penalty provisions; serving notice as a remedy.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag purple">Remedies scenario exercise</span></td></tr>
+      <tr><td>10</td><td>Analyse the legal consequences of terminating a supplier relationship for non-performance: contract termination and amicable dissolution; drafting and issuing termination notices; assessment of damages; contractual warranties and conditions; specific performance; termination clauses.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag">Termination case study</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>12</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>13</td><td>Review Knowledge LO1 &amp; LO2</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>14</td><td>Review Knowledge LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M4 ===== -->
+<div id="L5M4" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M4</strong></td><td class="core-badge">CORE MODULE</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Advanced Contract and Financial Management</td></tr>
+    <tr><td>Credit Value</td><td>12 Credits</td><td>Exam Duration: 3 Hours (CR)</td></tr>
+    <tr><td>Module Learning Time</td><td>120 Hours</td><td>Exam Type: Constructed Response (CR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 6.7, 6.8, 7.6, 8.5</td></tr>
+    <tr><td>Total TQT</td><td>600 Hours</td><td>SSR: 335 Hours | 4 LOs; ESG &amp; numerical calculations emphasis (2025)</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to develop measures to ensure and improve contract performance as they assess the concept and use of strategic sourcing and also consider financial aspects that may impact procurement and supply activity. The 2025 update places greater emphasis on calculating and interpreting numerical performance measures, finance and accounting.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">A significant element of the procurement and supply function is based around the contracting process. Those managing contracts must have a clear understanding of strategic contractual performance measures. Financial management refers to the efficient and effective management of funds to accomplish organisational objectives. This module is designed for those with responsibility for contracting elements who must also have a strategic awareness of the impact of financial aspects of their discipline. ESG is now integrated throughout all four learning outcomes.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Understand and apply tools and techniques to measure and develop contract performance (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Assess application of KPIs in delivering contract performance: effectiveness of supplier relationships; cost; quality; delivery; safety; ESG (Environmental, Social and Governance) considerations; product development.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">KPI design exercise</span></td></tr>
+      <tr><td>2</td><td>Evaluate methods of measuring and improving contract performance: sources of data and analysis in relation to cost, quality, delivery, safety and ESG considerations; measures supporting improvement of ESG considerations; measures supporting improvement of innovation; measures assessing product development time to market; role of qualitative and quantitative data; calculate and analyse return on investment; assess opportunities for data systems integration across supply chains.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">ROI calculation exercise</span></td></tr>
+      <tr class="indep-row"><td>3</td><td class="indep-label">Independent review notes using Study Guide (sections 1.1–1.2)</td><td></td><td></td></tr>
+      <tr><td>4</td><td>Examine approaches available for supplier contract performance: context and scope for supplier contract development; supplier capability assessments; learning, knowledge and technology transfer between and across organisations; collaborative product/service development (cross-functional working, early supplier involvement, supplier networks, co-ordination and forums); continuous improvement strategies, action plans and reviews.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag">Supplier development plan</span></td></tr>
+      <tr><td>5</td><td>Assess scope and developments to improve ESG considerations in supply chains: environmental measures; social and social value measures; governance measures; new supply chain finance.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag purple">ESG improvement measures task</span></td></tr>
+      <tr class="indep-row"><td>6</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Understand and apply the concept of strategic sourcing (Chapter 2)</td></tr>
+      <tr><td>7</td><td>Assess market factors influencing strategic sourcing: industry dynamics; pricing behaviour; financial data relating to suppliers; market demand and supply factors; business motivations, cost margins and working practices of key suppliers; internal stakeholder involvement; ESG considerations.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Market analysis workshop</span></td></tr>
+      <tr><td>8</td><td>Examine assessment of sourcing options and trade-offs for strategic supply: contract type and duration; competitive vs. non-competitive sourcing; number of suppliers and vetting strategies; marketplace competition and role of competition regulators; direct negotiation; joint proposition improvement; supply chain visibility.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Sourcing options matrix</span></td></tr>
+      <tr class="indep-row"><td>9</td><td class="indep-label">Independent review notes using Study Guide</td><td></td><td></td></tr>
+      <tr><td>10</td><td>Analyse a strategic assessment plan for a key supplier: capacity and capability; planning; quality control systems; security; technical expertise; reputation and time established; trading with competitors; future expansion opportunities / partnership potential; sensitivity analysis and calculation of investment outcomes; supplier performance based on financial data (calculate % change in revenues, costs and profits); sales forecast data and calculation of variances when comparing with the wider market.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Supplier financial data calculation</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Understand and apply financial techniques that affect supply chains (Chapter 3)</td></tr>
+      <tr><td>12</td><td>Analyse how finance can impact on supply chains: role of financial management in supply chains; options and risks of working capital funding and role of credit insurance; project funding options and assessment of cost of capital using WACC (Weighted Average Cost of Capital); medium and long-term financing options; financing of investments, corporate financing options, and the role of dividends.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">WACC calculation exercise</span></td></tr>
+      <tr><td>13</td><td>Appraise methods for managing the volatility of currencies in supply chains: calculation of changes in indices to inform cost analysis; fixed and floating exchange rates; demand and supply factors in foreign exchange and reasons for exchange rate volatility; spot, forward and derivative instruments in foreign exchange; services provided by the banking sector in foreign exchange.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Currency hedging simulation</span></td></tr>
+      <tr><td>14</td><td>Analyse methods for managing the volatility of commodities: types of commodities; operation of commodity markets; role of speculation in commodity markets; operation of spot, forward, futures and hedging in the buying and selling of commodities; operation of Contract for Difference (CFD) in commodity markets.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Commodity price case study</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO4: Analyse and apply financial and performance measures that can affect the supply chain (Chapter 4)</td></tr>
+      <tr><td>16</td><td>Assess financial measures that can be applied to performance of the supply chain: calculation and evaluation of performance measures linked to cost, time, quality and customer satisfaction; calculate and evaluate financial measures of efficiency – ROCE, cash flow, sales growth, investment (IRR and NPV) and variances over time; assessment of measures (stock turn, share yield and earnings per share); use, interpretation and limitations of balanced scorecards.</td><td><span class="ref-chip">LO4, AC4.1</span></td><td><span class="activity-tag blue">Financial metrics calculation</span></td></tr>
+      <tr><td>17</td><td>Examine impact of stakeholder feedback on supply chain performance: purpose of stakeholder feedback in developing supply chain performance; devising metrics of performance including feedback from third-parties, suppliers and other stakeholders; receiving feedback, reporting structures and processes.</td><td><span class="ref-chip">LO4, AC4.2</span></td><td><span class="activity-tag orange">Stakeholder feedback workshop</span></td></tr>
+      <tr><td>18</td><td>Analyse approaches to benchmarking that can be applied to measuring supply chain performance: use and limitations of benchmarking in supply chains; supplier involvement in performance improvement; ethical approach to the collection, storage, and use of benchmarking data.</td><td><span class="ref-chip">LO4, AC4.3</span></td><td><span class="activity-tag purple">Benchmarking ethics task</span></td></tr>
+      <tr class="indep-row"><td>19</td><td class="indep-label">Independent review notes using Study Guide and questions on LO4</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>20</td><td class="exam-label">CR Exam Style Question – full essay response under timed conditions</td><td></td><td><span class="activity-tag orange">Timed CR essay practice</span></td></tr>
+      <tr class="review-row"><td>21</td><td>Review Knowledge LO1 &amp; LO2</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>22</td><td>Review Knowledge LO3 &amp; LO4</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>23</td><td>Revision strategies and Final Q&amp;A</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M5 ===== -->
+<div id="L5M5" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M5</strong></td><td class="core-badge">CORE MODULE</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Managing Ethical Procurement and Supply</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 2.4, 6.9, 7.6, 11.4</td></tr>
+    <tr><td>Total TQT</td><td>600 Hours</td><td>SSR: 335 Hours | ESG fully integrated &amp; restructured (2025 New Book)</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to explain the impact of and initiatives to improve sustainability and the managerial approaches to promote ethical practices in procurement and supply. ESG (Environmental, Social and Governance) is now the central framework throughout all three learning outcomes.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">The global economy requires organisations to address ethical challenges of global sourcing. This module gives those with managerial responsibility for P&amp;S an understanding of the impact of ESG (Environmental, Social and Governance) considerations and ethics on the supply chain, and the opportunity to analyse initiatives to improve practice and ensure compliance with international standards. The 2025 book fully restructures all LOs around the ESG framework, with a much greater emphasis on ESG policy development, ED&amp;I, and updated fair trade standards.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Understand the impact of ESG considerations on ethical and sustainable supply chains (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse the application of ethical and ESG (Environmental, Social and Governance) factors in supply chains: principles and application of ESG considerations to secure ethical and sustainable P&amp;S arrangements; role of environmental considerations; role of social value considerations; role of governance considerations; risks and rewards of adopting ESG considerations; development of ESG-focused procurement and supply policies; role of equality, diversity and inclusion (ED&amp;I); issues impacting ethical and sustainable P&amp;S (modern slavery, bribery, corruption, fraud, human rights infringements); impact of breaches of ethical codes or ESG standards on reputation and brand.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">ESG framework analysis</span></td></tr>
+      <tr class="indep-row"><td>2</td><td class="indep-label">Independent review notes using Study Guide (section 1.1.1–1.1.9)</td><td></td><td></td></tr>
+      <tr><td>3</td><td>Contrast the factors influencing globalisation in supply chains: use of STEEPLED analysis to explain factors driving globalisation; competitive advantage through global sourcing; low-cost country sourcing; ESG considerations in global sourcing.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">STEEPLED globalisation workshop</span></td></tr>
+      <tr><td>4</td><td>Assess the cultural and social factors in securing ethical and sustainable procurement and supply: language and culture; labour standards and working practices; wages and social security arrangements; workers' rights; health and safety standards.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Cultural factors case study</span></td></tr>
+      <tr><td>5</td><td>Contrast the potential conflicts between stakeholders that may arise from using ESG considerations in developing ethical and sustainable P&amp;S arrangements: profit maximisation and low-cost sourcing; demand management and the need for urgent orders; short-term commercial gains and long-term availability; specifications; responsible use of power relationships; comprehensive stakeholder consultations and engagement.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">Stakeholder conflict analysis</span></td></tr>
+      <tr class="indep-row"><td>6</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Understand the importance of compliance with ESG factors to achieve ethical and sustainable P&amp;S (Chapter 2)</td></tr>
+      <tr><td>7</td><td>Assess methods to achieve ESG standards to secure ethical and sustainable supply chains: mapping supply chains to achieve supply chain transparency; analysis of ESG and ethical considerations to secure ethical and sustainable P&amp;S arrangements; use of risk mitigation strategies to achieve ESG objectives; mapping, consulting and managing all stakeholder requirements to secure ESG considerations in ethical and sustainable P&amp;S arrangements.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Supply chain ESG mapping</span></td></tr>
+      <tr><td>8</td><td>Evaluate how contractual terms can support the achievement of ESG objectives for ethical and sustainable P&amp;S: monitoring contract performance; importance of data and feedback from stakeholders to achieve compliance; methods to correct non-compliance and create and monitor action plans.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">ESG contractual clause review</span></td></tr>
+      <tr><td>9</td><td>Evaluate the use of third-parties to promote compliance with ESG considerations in supply chains: sourcing third-parties for auditing services; assessing the competencies of third-parties for the provision of ethical and ESG audit services; challenges with third-party auditors.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Third party audit workshop</span></td></tr>
+      <tr><td>10</td><td>Assess how supplier relationships should be managed in the event of failures in ESG considerations: creating awareness of standards and updates to standards with suppliers; worker representation, processes and audit trails; creating corrective action plans and supplier development programmes; escalating non-compliance and making exit arrangements.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">Supplier non-compliance scenario</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Understand initiatives and standards related to ESG that support ethical and sustainable P&amp;S (Chapter 3)</td></tr>
+      <tr><td>12</td><td>Assess the role of international labour standards and independent external accreditations in achieving ESG considerations for P&amp;S: standards set by the United Nations (UN) and the International Labour Organization (ILO); role of the UN and ILO in pursuing improved ESG and ethical standards; labour codes of conduct – Ethical Trading Initiative (ETI) and Social Accountability International's standard SA8000.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">Labour standards comparison</span></td></tr>
+      <tr><td>13</td><td>Analyse how external environmental standards frameworks and external accreditations can help achieve ESG objectives in ethical and sustainable P&amp;S: benefits and challenges of independent standards in securing ESG objectives; role of industry standards and frameworks used by organisations in securing ESG considerations and ethical standards.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Environmental standards research</span></td></tr>
+      <tr><td>14</td><td>Analyse how standards can help achieve fair trade in ethical and sustainable P&amp;S: principles of fair trade in procurement and supply; the World Fair Trade Organisation (WFTO) and its principles and charter of fair trade; Fairtrade International (FI), global fair trade organisations and their implications for P&amp;S; Fairtrade standards that affect the workplace and producers; importance of updating internal governance standards.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Fair trade standards seminar</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>16</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>17</td><td>Review Knowledge LO1 &amp; LO2</td><td></td><td><span class="activity-tag">Self-assessment vs marking criteria</span></td></tr>
+      <tr class="review-row"><td>18</td><td>Review Knowledge LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M6 ===== -->
+<div id="L5M6" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M6</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Category Management</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 4.5</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to evaluate approaches that can be adopted to develop category management of both direct and indirect organisational expenditure and plan for the associated strategic processes.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">Category management involves applying the end-to-end procurement process to a specific range of goods or services — including pre-award processes such as category analysis, demand management, sourcing and contract negotiation, and post-award processes such as performance management. This module is designed for those with responsibility for category management, focusing on differing approaches using tools and techniques for managing direct or indirect expenditure.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Approaches that can be used to develop category management strategies (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Critically compare strategic and conventional sourcing processes and their role in category management: defining strategic sourcing and category management; stages of a conventional sourcing process; transactional and strategic sourcing activities; differentiating account management and category management.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Sourcing process comparison</span></td></tr>
+      <tr><td>2</td><td>Critically compare models for the adoption of category management: models of strategic sourcing such as A.T. Kearney's 7-step model; models of category management such as CIPS Purchasing and Supply Model and CIPS Category Management Model; analysis of similarities and differences between models.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Model comparison workshop</span></td></tr>
+      <tr><td>3</td><td>Identify the technical and behavioural skills required to implement category management: technical skills (financial management, cost analysis, supply chain analysis, supply base research, sourcing processes, risk management, legal aspects, negotiation); behavioural skills (communication, influencing, working with teams, cross-functional working, change agents).</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Skills gap analysis</span></td></tr>
+      <tr class="indep-row"><td>4</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: The concepts, tools and techniques associated with managing expenditure (Chapter 2)</td></tr>
+      <tr><td>5</td><td>Contrast types of expenditure that can be analysed for category management processes: expenditures related to direct costs; expenditures related to indirect costs; applying Pareto analysis to expenditures and key suppliers.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Pareto/ABC analysis exercise</span></td></tr>
+      <tr><td>6</td><td>Compare and contrast tools and techniques to map categories of direct and indirect expenditure: matrices; supply chain mapping; Porter's Five Forces model; market share/market growth; STEEPLED and SWOT; technology route maps.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Expenditure mapping task</span></td></tr>
+      <tr class="indep-row"><td>7</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: The strategic impact of a category management process (Chapter 3)</td></tr>
+      <tr><td>8</td><td>Analyse the data required for development of a category management process: historical and forecasted data on categories of spend; demand patterns for category groups; current contracts with suppliers and terms being applied; reviews of existing relationships and performance; market trends.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag">Data analysis workshop</span></td></tr>
+      <tr><td>9</td><td>Examine requirements for initiating and preparing the introduction of a category management process: producing category hierarchies for direct and indirect expenditures; applying portfolio tools to map categories of expenditures; creating total cost models; conducting stakeholder needs analysis; forming cross-functional teams with RACI roles; reviewing implications of existing legislative requirements and standards.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag purple">Category hierarchy exercise</span></td></tr>
+      <tr><td>10</td><td>Analyse supply market factors impacting on the development of a category management process: analysing industry dynamics, competitiveness and pricing behaviour; analysing financial data on potential suppliers; using RFIs to assess market factors; conducting impact assessments of CSR/sustainability factors; conducting supply chain and value chain analysis; analysing supplier perceptions.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag blue">Market intelligence exercise</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>12</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>13</td><td>Review Knowledge LO1, LO2 &amp; LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M7 ===== -->
+<div id="L5M7" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M7</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Achieving Competitive Advantage Through the Supply Chain</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 1.5</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to assess a range of processes that support the achievement of competitive advantage and improvements in organisational performance through its supply chain.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">Competitive advantage is associated with the processes and procedures that an organisation has at its disposal to outperform its competitors. Many organisations see their supply chains as a significant source of achieving competitive advantage. This module is designed for managers responsible for formulating plans and approaches to achieve competitive advantage for their organisations through the supply chain.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: The dynamics of supply chains (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Compare supply chains, supply network and supply chain management: defining supply chains, supply networks and supply chain management; use of supplier tiering and network sourcing.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Supply network mapping</span></td></tr>
+      <tr><td>2</td><td>Analyse the added value that effective supply chain management can deliver: improving quality; reducing prices and total costs; reducing time to market and achieving deliveries to required timescales; creating innovation; reducing risk and supply chain vulnerability.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Value creation analysis</span></td></tr>
+      <tr><td>3</td><td>Analyse the relationship between organisational infrastructure and process management in SCM: theoretical perspectives on added value; aspects of organisational infrastructure (culture, organisational structure and systems); process management (sourcing process in procurement and managing stages of the process); process-mapping techniques; value chain analysis.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Value chain analysis exercise</span></td></tr>
+      <tr><td>4</td><td>Compare approaches to improving supply chains: spectrum of relationships in a supply chain; collaborative model (partnering and strategic relationship management); competitive model; outsourcing of work or services; offshoring, global procurement and low-cost country sourcing.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">Relationship spectrum workshop</span></td></tr>
+      <tr class="indep-row"><td>5</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Improvement methodologies that can be used in supply chains (Chapter 2)</td></tr>
+      <tr><td>6</td><td>Compare approaches to total quality management for supply chain improvement: defining quality and TQM; approaches to quality (quality inspection, quality assurance and total quality); quality versus risk; importance of relationships in quality management.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">TQM methodology comparison</span></td></tr>
+      <tr><td>7</td><td>Analyse use of statistical methods to achieve supply chain improvement: collating data for performance measurement; developing KPIs on aspects of supply performance; analysing data and introduction to statistics; use of the normal distribution; developing statistical process control; Six Sigma improvement methodology; creating continuous improvement.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Statistical process control exercise</span></td></tr>
+      <tr><td>8</td><td>Critically appraise processes that can be used for supply chain improvement: Just-in-Time (JIT) supply processes; application of JIT in the service sector; development of lean thinking and lean supply; lean thinking compared with agile; 5S methodology.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Lean vs agile comparison task</span></td></tr>
+      <tr><td>9</td><td>Examine how business process re-engineering (BPR) and benchmarking can be used for supply chain improvement: development of BPR; BPR in contrast to total quality; use of benchmarking in supply chains.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">BPR case study</span></td></tr>
+      <tr class="indep-row"><td>10</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Measures required to achieve competitive advantage in supply chains (Chapter 3)</td></tr>
+      <tr><td>11</td><td>Evaluate sources of competitive advantage: competitive advantage based on lowest cost of supply; competitive advantage achieved through sources of differential advantage (innovation, range of products, brand image, customer care).</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">Porter's generic strategies</span></td></tr>
+      <tr><td>12</td><td>Analyse pricing arrangements that can be used to achieve competitive advantage in the supply chain: use of fixed pricing, variable pricing and cost-plus arrangements; use of open-book costing and cost transparency; use of incentivisation in pricing and gain share (risk/reward) mechanisms.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Pricing model comparison</span></td></tr>
+      <tr><td>13</td><td>Analyse cost reduction activities for a supply chain to achieve competitive advantage: supplier rationalisation and aggregation of requirements; risks and benefits associated with single-sourcing arrangements; negotiating reductions in prices and costs; collaborative and competitive models of supply; value analysis and value engineering.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Cost reduction strategy exercise</span></td></tr>
+      <tr><td>14</td><td>Assess methods to promote greater collaboration in supply chains to support the achievement of competitive advantage: strategic versus operational suppliers; creating partnership sourcing arrangements; building trust with suppliers; the relationship life cycle.</td><td><span class="ref-chip">LO3, AC3.4</span></td><td><span class="activity-tag">Collaboration &amp; partnership analysis</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>16</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>17</td><td>Review Knowledge LO1, LO2 &amp; LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M8 ===== -->
+<div id="L5M8" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M8</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Project and Change Management</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 4.4, 8.4</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to assess the impact and implications of projects, examine approaches applied to the planning and management of projects and recognise the challenges associated with and methods to manage, achieve and maintain organisational change.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">The speed of development and the drive for maintaining organisational competitiveness mean that change is inevitable in the modern workplace. This module is designed for those involved in the P&amp;S function who must recognise the wider environment in which they work and be prepared to apply the tools and techniques that will ultimately lead to the successful management of projects and change initiatives.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: Aspects of projects in organisations (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse aspects of projects in organisations: relationship between programmes and projects; stakeholder identification, analysis and involvement; measures of safety, quality, cost and delivery; success and failure of projects; elements of projects; work breakdown structure.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Project initiation exercise</span></td></tr>
+      <tr><td>2</td><td>Evaluate the impact on supply chain relationships of undertaking projects: supply chain networks for projects; relationships with sub-contractors; consortiums and joint ventures for projects; traditional and contemporary relationships; project partnering and strategic partnering.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Supply network analysis</span></td></tr>
+      <tr><td>3</td><td>Analyse the resources for projects: resource loading and levelling; multi-project scheduling and resource allocation; information technology systems for project management; leading and managing projects; critical chain methodology; asset finance and the role of banks.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Resource planning simulation</span></td></tr>
+      <tr><td>4</td><td>Analyse the project life cycles of projects: perspectives on project life cycles; project initiation; organising projects and project implementation; co-ordination in project management; project control; project closure; project review.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">Life cycle mapping exercise</span></td></tr>
+      <tr class="indep-row"><td>5</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: The concept of organisational change and how it can be achieved (Chapter 2)</td></tr>
+      <tr><td>6</td><td>Analyse the types of organisational change: evolution; adaption; revolution; reconstruction; closed, contained and open-ended change.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Change type classification</span></td></tr>
+      <tr><td>7</td><td>Analyse situations that lead to organisational change: organisational life cycle; SWOT and PEST analysis and factors; internal drivers; future trends and innovation; multiple-cause diagrams and simultaneous change; changes in management and structure; cycle of competitive behaviour and reactive breakpoints.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Change driver analysis</span></td></tr>
+      <tr><td>8</td><td>Evaluate organisational responses to change: environmental turbulence; resistance to change; cynicism and scepticism; the challenge of maintaining change; the change cycle – loss, doubt, discomfort, discovery, understanding, integration.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Change cycle case study</span></td></tr>
+      <tr><td>9</td><td>Analyse methods to manage, achieve and maintain change: collaborate, communicate, direct and coerce; clarify goals; refine methods and procedures; empowerment and ownership; incremental adjustment; lean and value stream mapping; monitor and maintain changes; the change spectrum – hard (difficult) versus soft (messy) problems.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">Change management toolkit</span></td></tr>
+      <tr class="indep-row"><td>10</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Approaches to the planning and management of projects and change initiatives (Chapter 3)</td></tr>
+      <tr><td>11</td><td>Evaluate structures for corporate governance: project boards/executive; project responsibility charting; use of project initiation documents; structures of project management such as project, functional and matrix; project reporting.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag blue">Governance structure design</span></td></tr>
+      <tr><td>12</td><td>Analyse the common objectives for projects: identifying goals and objectives of projects; balance between cost, quality and time in projects; technology project development; building sustainability into major projects; impact on the community for major projects; communicating project objectives to the supply chain.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag orange">Project objectives exercise</span></td></tr>
+      <tr><td>13</td><td>Analyse approaches to the management of risks for projects: identifying assumptions and risks; risk simulation; risk registers; risk accountability; management of risk in supply chains.</td><td><span class="ref-chip">LO3, AC3.3</span></td><td><span class="activity-tag purple">Project risk register exercise</span></td></tr>
+      <tr><td>14</td><td>Critically compare methodologies for the planning of projects: sequencing activities; network techniques including PERT (Project Evaluation and Review Technique) and CPM (Critical Path Method); Gantt charts and baselines.</td><td><span class="ref-chip">LO3, AC3.4</span></td><td><span class="activity-tag">PERT/CPM/Gantt workshop</span></td></tr>
+      <tr class="indep-row"><td>15</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>16</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>17</td><td>Review Knowledge LO1, LO2 &amp; LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M9 ===== -->
+<div id="L5M9" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M9</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Operations Management</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 4.2, 4.3, 4.4</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to understand the concepts of operations management that link to the efficiency and effectiveness of the supply chain and explain plans, designs, processes and systems for the improved control or improvement of supply chain operations.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">An organisation must create and adopt processes that ensure consistent production of products and/or services that meet customer demand in terms of quantity and quality. This module enables those involved in P&amp;S to assess techniques aimed at improving supply chain operations to the overall benefit of the organisation.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: The concept and scope of operations management (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse the role and activities of operations management in organisations: definitions of operations and operations management; the extent of operations management in organisations; operations management in different types of organisations.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">OM in different sectors seminar</span></td></tr>
+      <tr><td>2</td><td>Critically assess the objectives and strategies of operations management: implementing, supporting and driving strategy; stages of development of operations strategy; performance objectives of OM (quality, speed, dependability, flexibility, cost); top-down and bottom-up perspectives; order qualifying and order winning objectives.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Performance objectives matrix</span></td></tr>
+      <tr><td>3</td><td>Evaluate operations management processes: the 'input-transformation-output' model of operations management; dimensions of operations processes (volume, variety, variation and visibility – the 4Vs); activities of operations processes.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">4Vs analysis exercise</span></td></tr>
+      <tr><td>4</td><td>Analyse the application of operations management across supply chains: OM in manufacturing, services, retail, construction, and public sector supply chains; impact of OM on global sourcing; examples of OM in different supply chains.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">Cross-sector OM comparison</span></td></tr>
+      <tr class="indep-row"><td>5</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Improvement methodologies that can be applied in operations management (Chapter 2)</td></tr>
+      <tr><td>6</td><td>Analyse tools for improving performance in operations management: use of performance measurement in OM; setting performance targets; benchmarking in improving OM; building continuous improvement; use of business process re-engineering (BPR).</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Performance improvement plan</span></td></tr>
+      <tr><td>7</td><td>Explain techniques in failure prevention and recovery that can be applied in OM: measuring failure and the impact of failure; mechanisms to detect failure; failure mode and effect analysis (FMEA); improving process reliability; maintenance and approaches to maintenance; failure distributions; business continuity.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">FMEA workshop</span></td></tr>
+      <tr><td>8</td><td>Evaluate the role of total quality management (TQM) in operations management: approaches to total quality management (TQM); differences between TQM and quality assurance (QA); work of pioneers of TQM (Deming, Juran).</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">Deming/Juran seminar</span></td></tr>
+      <tr><td>9</td><td>Analyse techniques for quality improvement that can be applied in OM: diagnosing quality problems; use of statistical process control (SPC); Taguchi loss function; Poka-yoke; Six Sigma approach to quality management.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">Six Sigma case study</span></td></tr>
+      <tr class="indep-row"><td>10</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>11</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>12</td><td>Review Knowledge LO1 &amp; LO2 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M10 ===== -->
+<div id="L5M10" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M10</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Logistics Management</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 4.3, 6.9, 6.10</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to understand the concepts of logistics management that link to the efficiency and effectiveness of the supply chain and explain plans, designs, processes and systems for the improved control or improvement of supply chain logistics.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">An organisation must create and adopt processes that ensure consistent delivery of products and/or services that meet customer demand in terms of quantity and quality. This module is designed to enable those involved in P&amp;S to assess techniques that are aimed at improving supply chain logistics to the overall benefit of the organisation.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: The concept of logistics management (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse the role and activities of logistics management: defining logistics; elements of logistics management (integration of information, transportation, inventory, warehousing, material handling, packaging and security); different areas of logistics (procurement, production, distribution, after sales and disposals); logistics and supply chain management.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Logistics mapping exercise</span></td></tr>
+      <tr><td>2</td><td>Analyse the concept of integrated logistics: total logistics concept; total costs concept of logistics; pipeline inventory and logistics; multi-modal transportation.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Total cost of logistics analysis</span></td></tr>
+      <tr><td>3</td><td>Evaluate aspects of competitive advantage that can be achieved through logistics management: sources of competitive advantage through logistics; matching logistics to business strategy; levels of customer service; measuring customer service; service life-cycle management; financial impact of logistics; role of procurement in logistics.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Competitive advantage workshop</span></td></tr>
+      <tr><td>4</td><td>Critically appraise the use of technology in logistics management: coding and bar coding in logistics; order tracking technologies; Auto Identification Data Capture (AIDC) technology; Radio Frequency Identification (RFID) in logistics; e-fulfilment in logistics; warehouse management systems (WMS); transport management systems; integrating systems in the logistics supply chain.</td><td><span class="ref-chip">LO1, AC1.4</span></td><td><span class="activity-tag">Technology in logistics seminar</span></td></tr>
+      <tr class="indep-row"><td>5</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Capacity planning and control in logistics management (Chapter 2)</td></tr>
+      <tr><td>6</td><td>Analyse techniques that can be applied to planning and control in logistics management: difference between planning and control; achieving balance between planning and control; responding to demand; loading, sequencing and scheduling.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag blue">Planning and control exercise</span></td></tr>
+      <tr><td>7</td><td>Explain techniques that can be applied to capacity management: defining capacity; capacity constraints; planning and controlling capacity; forecasting demand fluctuations; measuring capacity; capacity planning through level capacity plans, chase demand plans or demand management.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag orange">Capacity planning simulation</span></td></tr>
+      <tr><td>8</td><td>Analyse the use of Materials Requirements Planning (MRP) systems technology for planning and control: MRP and MRP II; ERP; master production scheduling; bills of materials (BOM); inventory data; MRP calculations; limitations of MRP systems.</td><td><span class="ref-chip">LO2, AC2.3</span></td><td><span class="activity-tag purple">MRP calculation exercise</span></td></tr>
+      <tr><td>9</td><td>Analyse the use of reverse logistics as a process: reverse logistics processes; challenge of customer returns and returns management; customer returns policies; redistribution of returns to the supply chain.</td><td><span class="ref-chip">LO2, AC2.4</span></td><td><span class="activity-tag">Reverse logistics case study</span></td></tr>
+      <tr class="indep-row"><td>10</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>11</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>12</td><td>Review Knowledge LO1 &amp; LO2 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ===== L5M15 ===== -->
+<div id="L5M15" class="module-panel">
+  <table class="mod-header-table">
+    <tr><td>Module Code</td><td><strong>L5M15</strong></td><td class="elective-badge">ELECTIVE MODULE ★</td></tr>
+    <tr><td>Module Title</td><td class="title-row" colspan="2">Advanced Negotiation</td></tr>
+    <tr><td>Credit Value</td><td>6 Credits</td><td>Exam Duration: 1.5 Hours (OR)</td></tr>
+    <tr><td>Module Learning Time</td><td>60 Hours</td><td>Exam Type: Objective Response (OR)</td></tr>
+    <tr><td>Total GLH</td><td>250 Hours</td><td>CIPS Global Standard: 6.7, 10.3</td></tr>
+    <tr><td>Module Purpose <em>(from syllabus)</em></td><td class="purpose-row" colspan="2">On completion of this module, learners will be able to examine the key stages of the negotiation process and the influence of relationships and ethics on the process. They will also assess the methods and behavioural factors which can influence others.</td></tr>
+    <tr><td>Module Aim(s) <em>(from syllabus)</em></td><td class="aim-row" colspan="2">Those involved in P&amp;S activity will create and manage formal agreements critical to organisational success. Part of the developmental process for such agreements will rely upon effective negotiations with stakeholders and/or suppliers and the ability to influence the individuals and groups involved. This module is designed for managers who may be faced with preparing for and completing negotiations.</td></tr>
+  </table>
+  <div class="session-section"><table class="session-table">
+    <thead><tr><th>#</th><th>Session Objective / Outcome &amp; Independent Study Activity</th><th>Syllabus Reference</th><th>Learning Activity</th></tr></thead>
+    <tbody>
+      <tr class="header-row"><td>—</td><td colspan="3">LO1: The key stages which impact on the negotiation process and outcomes (Chapter 1)</td></tr>
+      <tr><td>1</td><td>Analyse pre-negotiation and the associated preparation that should be made: who is to negotiate – team versus individual (advantages versus disadvantages); venue, intelligence gathering, clear objectives, strategy and tactics, rehearsal; negotiation agenda – advantages versus disadvantages.</td><td><span class="ref-chip">LO1, AC1.1</span></td><td><span class="activity-tag blue">Negotiation preparation workshop</span></td></tr>
+      <tr class="indep-row"><td>2</td><td class="indep-label">Independent review notes using Study Guide</td><td></td><td></td></tr>
+      <tr><td>3</td><td>Examine negotiation and the associated strategies, tools and techniques: specialist tools of negotiation; framing an agenda; questions to elicit information and apply pressure; concessions to secure movements; reciprocated concessions; understanding personalities of opponents and their motivational drivers; deadlocked negotiations; effects of lengthy negotiations, tiredness and concentration; concluding the negotiation; evaluating the negotiation outcome – benefits and value added; planning agreements.</td><td><span class="ref-chip">LO1, AC1.2</span></td><td><span class="activity-tag orange">Live negotiation simulation</span></td></tr>
+      <tr><td>4</td><td>Examine post-negotiation actions: planning contracts – clear agreements; selling the agreements to stakeholders; implementing agreements; establish monitoring procedures.</td><td><span class="ref-chip">LO1, AC1.3</span></td><td><span class="activity-tag purple">Implementation planning exercise</span></td></tr>
+      <tr class="indep-row"><td>5</td><td class="indep-label">Independent review notes using Study Guide and questions on LO1</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO2: Negotiation relationships and ethics (Chapter 2)</td></tr>
+      <tr><td>6</td><td>Assess the changing relationship within the negotiation process: honesty and working relationships; assess the situation; place negotiation in the long-term context.</td><td><span class="ref-chip">LO2, AC2.1</span></td><td><span class="activity-tag">Trust-building analysis</span></td></tr>
+      <tr><td>7</td><td>Analyse ethics and its influence on the negotiation process: positional negotiation versus principled negotiation; separate the people from the problem; identify options for mutual gain – win-win; sharing of information and data; cultural factors; bribery, corruption and fraud.</td><td><span class="ref-chip">LO2, AC2.2</span></td><td><span class="activity-tag blue">Ethical dilemmas workshop</span></td></tr>
+      <tr class="indep-row"><td>8</td><td class="indep-label">Independent review notes using Study Guide and questions on LO2</td><td></td><td></td></tr>
+      <tr class="header-row"><td>—</td><td colspan="3">LO3: Methods and behavioural factors which can influence others (Chapter 3)</td></tr>
+      <tr><td>9</td><td>Assess methods to influence individuals and groups: building networks of trust and influence; creating alliances; identifying and dealing with conflict and resistance; managing ambiguity and uncertainty.</td><td><span class="ref-chip">LO3, AC3.1</span></td><td><span class="activity-tag orange">Influencing styles exercise</span></td></tr>
+      <tr><td>10</td><td>Analyse the behavioural factors that might influence individuals: attitudes and responses; motivation; groups versus informal organisations; leadership style and systems management; consultation and participation; empowerment; organisational structure.</td><td><span class="ref-chip">LO3, AC3.2</span></td><td><span class="activity-tag purple">Behavioural analysis workshop</span></td></tr>
+      <tr class="indep-row"><td>11</td><td class="indep-label">Independent review notes using Study Guide and questions on LO3</td><td></td><td></td></tr>
+      <tr class="exam-row"><td>12</td><td class="exam-label">OR Exam Practice – timed objective response questions across all LOs</td><td></td><td><span class="activity-tag orange">Practice OR paper</span></td></tr>
+      <tr class="review-row"><td>13</td><td>Review Knowledge LO1, LO2 &amp; LO3 – Final Revision</td><td></td><td><span class="activity-tag">Pre-watch CIPS Masterclasses, Final Q&amp;A</span></td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<div class="footer-bar">
+  CIPS Level 5 Advanced Diploma in Procurement &amp; Supply &nbsp;|&nbsp; Ref: 603/3925/1 &nbsp;|&nbsp; 2025 Updated Syllabus &nbsp;|&nbsp; ★ = Elective Module (choose 3 from 6) &nbsp;|&nbsp; © CIPS
+</div>
+</div>
+
+<script>
+function showModule(id,btn){
+  document.querySelectorAll('.module-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.module-nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
